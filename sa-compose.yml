@@ -1,0 +1,43 @@
+services:
+  frontend:
+    image: node:18
+    volumes:
+      - type: bind
+        source: ./frontend
+        target: /app
+    ports:
+      - 3000:3000
+    working_dir: /app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        npm run build
+        npm run start
+    environment:
+      # Make sure this port number is the same with scheduler's port
+      - NEXT_PUBLIC_SERVER_ENDPOINT=http://localhost:3001/schedule
+    depends_on:
+      - scheduler
+
+  scheduler:
+    image: node
+    volumes:
+      - type: bind
+        source: ./sa
+        target: /app
+    ports:
+      # if port 3001 is not availabe, change the first one (i.e. 3002:3001)
+      - 3001:3001
+    working_dir: /app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        ./sa_backend
+
+networks:
+  default:
+    name: scheduler_network

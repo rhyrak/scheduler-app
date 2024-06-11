@@ -1,8 +1,16 @@
 # İndir & Çalıştır
 
 ```
-    git clone -r https://github.com/rhyrak/scheduler-app
+    git clone --recurse-submodules https://github.com/rhyrak/scheduler-app
     docker compose up
+```
+
+veya
+
+```
+    git clone --recurse-submodules https://github.com/rhyrak/scheduler-app
+    make install_sa_backend
+    make run_sa_compose
 ```
 
 # Program girdileri
